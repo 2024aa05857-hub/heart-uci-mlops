@@ -1,1 +1,37 @@
+name: CI - MLOps Pipeline
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test-train:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run unit tests
+        run: |
+          pytest -q
+
+      - name: Train model
+        run: |
+          python -m src.train
+
+      - name: Upload model artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: trained-model
+          path: models/
 
