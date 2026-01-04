@@ -17,7 +17,13 @@ python -m venv .venv
 # macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
 ```
-
+## Dataset
+```bash
+The dataset used is the UCI Heart Disease dataset.
+Source:
+https://archive.ics.uci.edu/ml/datasets/Heart+Disease
+The dataset is automatically loaded and cleaned during training.
+```
 ## Train
 ```bash
 python -m src.train
