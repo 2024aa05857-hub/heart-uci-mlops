@@ -20,6 +20,12 @@ app = FastAPI(title="Heart Disease Risk API", version="1.0.0")
 paths = Paths()
 model = None
 
+def get_model():
+    global model
+    if model is None:
+        model = joblib.load(paths.model_path)
+    return model
+
 @app.on_event("startup")
 def _load():
     global model
