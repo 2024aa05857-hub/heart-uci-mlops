@@ -23,11 +23,11 @@ jobs:
 
       - name: Run unit tests
         run: |
-          pytest -q
+          PYTHONPATH=. pytest -q
 
       - name: Train model
         run: |
-          python -m src.train
+          PYTHONPATH=. python -m src.train
 
       - name: Upload model artifacts
         uses: actions/upload-artifact@v4
