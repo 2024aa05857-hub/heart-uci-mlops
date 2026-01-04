@@ -47,7 +47,8 @@ def predict(p: Patient):
     REQUESTS.labels(endpoint="/predict").inc()
 
     x = pd.DataFrame([p.model_dump()])
-    proba = float(model.predict_proba(x)[:, 1][0])
+    m = get_model()
+    proba = float(m.predict_proba(x)[:, 1][0])
     pred = int(proba >= 0.5)
 
     logger.info("prediction=%s proba=%.4f input=%s", pred, proba, p.model_dump())
