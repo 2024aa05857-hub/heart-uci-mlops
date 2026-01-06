@@ -11,6 +11,7 @@ from src.features import FeatureSpec, build_preprocess
 from src.evaluate import cv_scores
 from src.utils import save_json
 from src.config import Paths, DEFAULT_SEED
+from datetime import datetime, UTC
 
 def main():
     paths = Paths()
@@ -25,7 +26,7 @@ def main():
 
     candidates = {
         "logreg": LogisticRegression(max_iter=3000, class_weight="balanced", random_state=DEFAULT_SEED),
-        "rf": RandomForestClassifier(
+        "randomforest": RandomForestClassifier(
             n_estimators=400,
             random_state=DEFAULT_SEED,
             class_weight="balanced",
@@ -39,7 +40,13 @@ def main():
     for name, model in candidates.items():
         pipe = Pipeline([("preprocess", pre), ("model", model)])
 
-        with mlflow.start_run(run_name=name):
+        run_name = f"{name}_{datetime.now(UTC).strftime('%Y%m%d_%H%M%S')}"
+        with mlflow.start_run(run_name=run_name):
+            mlflow.set_tags({
+                "model": name,
+                "seed": DEFAULT_SEED,
+                "framework": "sklearn",
+            })
             mlflow.log_param("model", name)
 
             cv = cv_scores(pipe, X_train, y_train, seed=DEFAULT_SEED, folds=5)
