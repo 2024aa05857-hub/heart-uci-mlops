@@ -42,7 +42,7 @@ jobs:
         with:
           name: trained-model
           path: models/
-          
+
       - name: Upload MLflow database
         uses: actions/upload-artifact@v4
         with:
@@ -68,11 +68,12 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       # ✅ Build and push Docker image to GHCR
-      - name: Build and push Docker image
+      - name: Build and push multi-arch Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
+          platforms: linux/amd64,linux/arm64/v8
           tags: |
             ghcr.io/${{ github.repository }}:latest
             ghcr.io/${{ github.repository }}:${{ github.sha }}

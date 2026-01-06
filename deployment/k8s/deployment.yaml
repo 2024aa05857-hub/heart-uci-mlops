@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: heart-api
-          image: heart-api:1
-          imagePullPolicy: IfNotPresent
+          image: ghcr.io/2024aa05857-hub/heart-uci-mlops:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8000
